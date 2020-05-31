@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mIvFullScreen = findViewById(R.id.iv_full_screen);
         mIvFullScreen.setOnClickListener(this);
         mIvFullScreen.setImageResource(R.mipmap.zoom_1);
-        mIvFullScreen.setAlpha(0.8f);
+        mIvFullScreen.setAlpha(0.6f);
         mIvStartPause = findViewById(R.id.iv_start_pause);
         mIvStartPause.setOnClickListener(this);
         mIvStartPause.setImageResource(R.mipmap.play);
-        mIvStartPause.setAlpha(0.8f);
+        mIvStartPause.setAlpha(0.6f);
         mProgressBar = findViewById(R.id.progress_bar);
         mSfvVideo.setOnClickListener(this);
         mSfvVideo.getHolder().addCallback(mCallback);
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    private long lastSfvClick = 0;
+    private static final long DOUBLE_CLICK_CHECK = 300;
 
     @Override
     public void onClick(View v) {
@@ -109,18 +111,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fullScreenChange();
                 break;
             case R.id.iv_start_pause:
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    isPause = true;
-                    mIvStartPause.setImageResource(R.mipmap.play);
-                } else if (isPause) {
-                    mediaPlayer.start();
-                    mIvStartPause.setImageResource(R.mipmap.pause);
-                } else if (!mVideoPath.equals("")) {
-                    playVideo();
-                }
+                pausePlay();
                 break;
             case R.id.sfv_video:
+                long current = System.currentTimeMillis();
+                if (current - lastSfvClick <= DOUBLE_CLICK_CHECK) {
+                    pausePlay();
+                    break;
+                }
+                lastSfvClick = current;
                 View vl = findViewById(R.id.layout_controller);
                 if (vl.getVisibility() == View.VISIBLE) {
                     vl.setVisibility(View.GONE);
@@ -133,6 +132,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isPause = false;
                 choseFile();
                 break;
+        }
+    }
+
+    private void pausePlay() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            isPause = true;
+            mIvStartPause.setImageResource(R.mipmap.play);
+        } else if (isPause) {
+            mediaPlayer.start();
+            mIvStartPause.setImageResource(R.mipmap.pause);
+        } else if (!mVideoPath.equals("")) {
+            playVideo();
         }
     }
 

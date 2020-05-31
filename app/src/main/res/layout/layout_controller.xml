@@ -4,16 +4,16 @@
     android:id="@+id/layout_controller"
     android:layout_height="40dp">
 
-    <Button
-        android:id="@+id/bt_start_pause"
+    <ImageView
+        android:id="@+id/iv_start_pause"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp" />
 
-    <Button
-        android:id="@+id/bt_full_screen"
+    <ImageView
+        android:id="@+id/iv_full_screen"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"

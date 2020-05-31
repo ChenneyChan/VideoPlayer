@@ -27,6 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="显示视频信息" />
+        android:text="点击此处选择待播放的视频" />
 
 </LinearLayout>
